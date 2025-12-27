@@ -4,21 +4,23 @@ class DatabaseReader:
     def __init__(self, connection):
         self.connection = connection
 
-        self.createEmployees()
-        self.createComponents()
-        self.createLogs()
-    def createEmployees():
+    def load_all(self):
+        self.load_employees()
+        self.load_components()
+        self.load_logs()
+    def load_employees(self):
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM UserTable")
         for row in cursor.fetchall():
-            createEmployee(row[0], row[1], row[2], True if row[3] == 1 else False)
-    def createComponents():
+            isActive = bool(row[3])
+            createEmployee(row[0], row[1], row[2], isActive)
+    def load_components(self):
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM ComponentTable")
         for row in cursor.fetchall():
             createComponent(row[0], row[1], row[2], row[3], row[4])
-    def createLogs():
+    def load_logs(self):
         cursor = self.connection.cursor()
-        cursor.execute("SELECT * FROM UserTable")
+        cursor.execute("SELECT * FROM LogTable")
         for row in cursor.fetchall():
             createLog(row[0], row[1], row[2], row[3])
