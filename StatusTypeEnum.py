@@ -1,8 +1,8 @@
 from enum import Enum
 
 class StatusType(Enum):
-    outOfStock = "outOfStock"
-    available = "available"
-    inUse = "inUse"
-    faulty = "faulty"
-    maintenance = "maintenance"
+    outOfStock = 1
+    available = 2
+    inUse = 3
+    faulty = 4
+    maintenance = 5
