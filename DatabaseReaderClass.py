@@ -1,7 +1,7 @@
 #need source to createEmployee, createComponent and createLog implementation from other classes
 
 class DatabaseReader:
-    def __init__(self, connection):
+    def __init__(self):
         self.connection = sqlite3.connect('database.db')
 
     def load_all(self):
@@ -32,3 +32,4 @@ class DatabaseReader:
             logObjects = create_log(row[0], row[1], row[2], row[3], False, logObjects)
         return logObjects
         
+
