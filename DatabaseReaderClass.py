@@ -2,7 +2,7 @@
 
 class DatabaseReader:
     def __init__(self, connection):
-        self.connection = connection
+        self.connection = sqlite3.connect('database.db')
 
     def load_all(self):
         employeeObjects = self.load_employees()
