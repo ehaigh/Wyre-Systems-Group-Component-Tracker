@@ -13,14 +13,14 @@ class DatabaseReader:
         cursor.execute("SELECT * FROM UserTable")
         for row in cursor.fetchall():
             isActive = bool(row[3])
-            createEmployee(row[0], row[1], row[2], isActive)
+            create_employee(row[0], row[1], row[2], isActive)
     def load_components(self):
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM ComponentTable")
         for row in cursor.fetchall():
-            createComponent(row[0], row[1], row[2], row[3], row[4])
+            create_component(row[0], row[1], row[2], row[3], row[4])
     def load_logs(self):
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM LogTable")
         for row in cursor.fetchall():
-            createLog(row[0], row[1], row[2], row[3])
+            create_log(row[0], row[1], row[2], row[3])
