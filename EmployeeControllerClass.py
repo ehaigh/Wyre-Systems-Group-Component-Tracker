@@ -1,4 +1,4 @@
-#source create_employee_db, edit_employee_db and delete_employee_db from databaseWriter
+from DatabaseWriterClass import create_employee_db, edit_employee_db, delete_employee_db
 
 import hashlib
 
