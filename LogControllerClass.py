@@ -1,4 +1,4 @@
-#source create_log_db
+from DatabaseWriterClass import create_log_db
 
 class LogController:
     def __init__(self):
