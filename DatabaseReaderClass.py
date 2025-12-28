@@ -1,4 +1,6 @@
-#need source to createEmployee, createComponent and createLog implementation from other classes
+from EmployeeControllerClass import create_employee
+from ComponentControllerClass import create_component
+from LogControllerClass import create_log
 
 class DatabaseReader:
     def __init__(self):
@@ -35,5 +37,6 @@ class DatabaseReader:
             logObjects = create_log(row[0], row[1], row[2], row[3], False, logObjects)
         return logObjects
         
+
 
 
