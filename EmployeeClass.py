@@ -1,10 +1,10 @@
-#need to source hashPassword
+from EmployeeController import hash_password
 
 class Employee:
     def __init__(self, employeeId, username, password, isManager):
         self.employeeId = employeeId
         self.username = username
-        self.password = hashPassword(password)
+        self.password = hash_password(password)
         self.isManager = isManager
     def get_employeeId(self):
         return self.employeeId
@@ -19,6 +19,6 @@ class Employee:
     def set_username(self, username):
         self.username = username
     def set_password(self, password):
-        self.password = hashPassword(password)
+        self.password = hash_password(password)
     def set_isManager(self, isManager):
         self.isManager = isManager
