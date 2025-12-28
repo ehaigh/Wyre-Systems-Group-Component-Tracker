@@ -1,4 +1,4 @@
-#need to source status class
+from StatusTypeEnum import StatusType
 
 class Component:
     def __init__(self, componentId, componentName, quantity, minQuantity, status):
@@ -6,7 +6,7 @@ class Component:
         self.componentName = componentName
         self.quantity = quantity
         self.minQuantity = minQuantity
-        self.status = status
+        self.status = StatusType[status]
     def get_componentId(self):
         return componentId
     def get_componentName(self):
@@ -26,4 +26,4 @@ class Component:
     def set_minQuantity(self, minQuantity):
         self.minQuantity = minQuantity
     def set_status(self, status):
-        self.status = status
+        self.status = StatusType[status]
