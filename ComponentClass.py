@@ -8,15 +8,15 @@ class Component:
         self.minQuantity = minQuantity
         self.status = StatusType[status]
     def get_componentId(self):
-        return componentId
+        return self.componentId
     def get_componentName(self):
-        return componentName
+        return self.componentName
     def get_quantity(self):
-        return quantity
+        return self.quantity
     def get_minQuantity(self):
-        return minQuantity
+        return self.minQuantity
     def get_status(self):
-        return status
+        return self.status.name
     def set_componentId(self, componentId):
         self.componentId = componentId
     def set_componentName(self, componentName):
