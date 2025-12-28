@@ -4,6 +4,9 @@ class DatabaseReader:
     def __init__(self):
         self.connection = sqlite3.connect('database.db')
 
+    def close(self):
+        self.connection.close()
+
     def load_all(self):
         employeeObjects = self.load_employees()
         componentObjects = self.load_components()
@@ -32,4 +35,5 @@ class DatabaseReader:
             logObjects = create_log(row[0], row[1], row[2], row[3], False, logObjects)
         return logObjects
         
+
 
