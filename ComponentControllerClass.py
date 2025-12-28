@@ -1,5 +1,5 @@
-#source create_component_db, edit_component_db, delete_component_db
-#source status enumeration
+from DatabaseWriterClass import create_component_db, edit_component_db, delete_component_db
+from StatusTypeEnum import StatusType
 
 class ComponentController:
     def __init__(self):
@@ -32,7 +32,7 @@ class ComponentController:
                     component.set_status(newstatus)
                     componentUpdated = True
             if componentUpdated:
-                edit_component_db(oldcomponentId, component.get_componentId(), component.get_componentName(), component.get_quantity(), component.get_minQuantity(), component.get_status())
+                edit_component_db(oldcomponentId, component.get_componentId(), component.get_componentName(), component.get_quantity(), component.get_minQuantity(), component.get_status().value)
         return componentObjects, itemUpdated
     def delete_component(self, componentId, componentObjects):
         itemDeleted = False
