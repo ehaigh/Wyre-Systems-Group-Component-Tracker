@@ -32,7 +32,7 @@ class ComponentController:
                     component.set_status(newstatus)
                     componentUpdated = True
             if componentUpdated:
-                edit_component_db(oldcomponentId, component.get_componentId(), component.get_componentName(), component.get_quantity(), component.get_minQuantity(), component.get_status().value)
+                edit_component_db(oldcomponentId, component.get_componentId(), component.get_componentName(), component.get_quantity(), component.get_minQuantity(), component.get_status().name)
         return componentObjects, itemUpdated
     def delete_component(self, componentId, componentObjects):
         itemDeleted = False
