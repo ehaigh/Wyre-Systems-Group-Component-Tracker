@@ -1,5 +1,3 @@
-#need to source enumeration
-
 class DatabaseWriter:
     def __init__(self):
         self.connection = sqlite3.connect('database.db')
