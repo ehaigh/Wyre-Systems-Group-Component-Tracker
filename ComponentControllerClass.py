@@ -3,16 +3,15 @@ from StatusTypeEnum import StatusType
 
 class ComponentController:
     def __init__(self):
-        pass
-    def create_component(self, componentId, componentName, quantity, minQuantity, status, updateDatabase, componentObjects):
+        self.componentObjects = []
+    def create_component(self, componentId, componentName, quantity, minQuantity, status, updateDatabase):
         component = Component(componentId, componentName, quantity, minQuantity, status)
-        componentObjects.append(component)
+        self.componentObjects.append(component)
         if updateDatabase:
             create_component_db(componentId, componentName, quantity, minQuantity, status)
-        return componentObjects
-    def edit_component(self, oldcomponentId, newcomponentId, newcomponentName, newquantity, newminQuantity, newstatus, componentObjects):
+    def edit_component(self, oldcomponentId, newcomponentId, newcomponentName, newquantity, newminQuantity, newstatus):
         itemUpdated = False
-        for component in componentObjects:
+        for component in self.componentObjects:
             componentUpdated = False
             if (oldcomponentId == component.get_componentId()):
                 itemUpdated = True
@@ -33,12 +32,16 @@ class ComponentController:
                     componentUpdated = True
             if componentUpdated:
                 edit_component_db(oldcomponentId, component.get_componentId(), component.get_componentName(), component.get_quantity(), component.get_minQuantity(), component.get_status().name)
-        return componentObjects, itemUpdated
-    def delete_component(self, componentId, componentObjects):
+        return itemUpdated
+    def delete_component(self, componentId):
         itemDeleted = False
-        for component in componentObjects:
+        for component in self.componentObjects:
             if (componentId == component.get_componentId()):
                 itemDeleted = True
                 delete_component_db(componentId)
-                componentObjects.remove(component)
-        return componentObjects, itemDeleted
+                self.componentObjects.remove(component)
+        return itemDeleted
+
+    def get_component_objects(self):
+        return self.componentObjects
+
