@@ -1,3 +1,5 @@
+import sqlite3
+
 class DatabaseWriter:
     def __init__(self):
         self.connection = sqlite3.connect('database.db')
@@ -64,3 +66,4 @@ class DatabaseWriter:
             (logId, action, date, time)
         )
         self.connection.commit()
+
