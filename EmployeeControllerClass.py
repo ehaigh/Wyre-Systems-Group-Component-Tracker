@@ -1,62 +1,61 @@
-from DatabaseWriterClass import create_employee_db, edit_employee_db, delete_employee_db
-
 import hashlib
-
 from EmployeeClass import Employee
+from DatabaseWriterClass import DatabaseWriter
+
 
 class EmployeeController:
     def __init__(self):
         self.employeeObjects = []
-    def create_employee(self, employeeId, username, password, isManager, updateDatabase):
-        employee = Employee(employeeId, username, self.hash_password(password), isManager)
+        self.db = DatabaseWriter()
+
+    def create_employee(self, employeeId, username, password, isManager, updateDatabase=True):
+        hashedPassword = self.hash_password(password)
+        employee = Employee(employeeId, username, hashedPassword, isManager)
         self.employeeObjects.append(employee)
+
         if updateDatabase:
-            create_employee_db(employeeId, username, self.hash_password(password), isManager)
-    def edit_employee(self, oldemployeeId, newemployeeId, newusername, newpassword, newisManager):
-        itemUpdated = False
+            self.db.create_employee_db(employeeId, username, hashedPassword, isManager)
+
+    def edit_employee(self, oldemployeeId, newemployeeId, newusername, newpassword, newisManager, doHashPassword):
         for employee in self.employeeObjects:
-            employeeUpdated = False
-            if (oldemployeeId == employee.get_employeeId()):
-                itemUpdated = True
-                if (newemployeeId != "") and (newemployeeId != None):
+            if employee.get_employeeId() == oldemployeeId:
+                if newemployeeId:
                     employee.set_employeeId(newemployeeId)
-                    employeeUpdated = True
-                if (newusername != "") and (newusername != None):
+                if newusername:
                     employee.set_username(newusername)
-                    employeeUpdated = True
-                if (newpassword != "") and (newpassword != None):
+                if newpassword and doHashPassword:
                     employee.set_password(self.hash_password(newpassword))
-                    employeeUpdated = True
-                if (newisManager != "") and (newisManager != None):
+                if newisManager is not None:
                     employee.set_isManager(newisManager)
-                    employeeUpdated = True
-            if employeeUpdated:
-                edit_employee_db(oldemployeeId, employee.get_employeeId(), employee.get_username(), employee.get_password(), employee.isManager())
-        return itemUpdated
+
+                self.db.edit_employee_db(
+                    oldemployeeId,
+                    employee.get_employeeId(),
+                    employee.get_username(),
+                    employee.get_password(),
+                    employee.get_isManager()
+                )
+                return True
+        return False
 
     def delete_employee(self, employeeId):
-        itemDeleted = False
-        for employee in employeeObjects:
-            if (employeeId == employee.get_employeeId()):
-                itemDeleted = True
-                delete_employee_db(employeeId)
+        for employee in self.employeeObjects:
+            if employee.get_employeeId() == employeeId:
                 self.employeeObjects.remove(employee)
-        return itemDeleted
+                self.db.delete_employee_db(employeeId)
+                return True
+        return False
 
     def get_employee_objects(self):
         return self.employeeObjects
 
-    def hash_password(self, rawPassword):
-        #encode into bytes
-        passwordBytes = rawPassword.encode('utf-8')
-        #create SHA-256 hash
-        hashedPassword = hashlib.sha256(passwordBytes).hexdigest()
-        return hashedPassword
-        
     def validate_credentials(self, username, password):
-        validated = False
+        hashed = self.hash_password(password)
         for employee in self.employeeObjects:
-            if username == employee.get_username():
-                if self.hash_password(password) == employee.get_password():
-                    validated = True
-        return validated
+            if employee.get_username() == username and employee.get_password() == hashed:
+                return True, employee.get_isManager()
+        return False, None
+
+    def hash_password(self, rawPassword):
+        return hashlib.sha256(rawPassword.encode("utf-8")).hexdigest()
+
