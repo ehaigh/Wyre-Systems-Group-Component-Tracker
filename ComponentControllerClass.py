@@ -1,47 +1,52 @@
-from DatabaseWriterClass import create_component_db, edit_component_db, delete_component_db
-from StatusTypeEnum import StatusType
+from ComponentClass import Component
+from DatabaseWriterClass import DatabaseWriter
 
 class ComponentController:
     def __init__(self):
         self.componentObjects = []
-    def create_component(self, componentId, componentName, quantity, minQuantity, status, updateDatabase):
+        self.db = DatabaseWriter()
+
+    def create_component(self, componentId, componentName, quantity, minQuantity, status, updateDatabase=True):
         component = Component(componentId, componentName, quantity, minQuantity, status)
         self.componentObjects.append(component)
+
         if updateDatabase:
-            create_component_db(componentId, componentName, quantity, minQuantity, status)
+            self.db.create_component_db(componentId, componentName, quantity, minQuantity, status)
+
     def edit_component(self, oldcomponentId, newcomponentId, newcomponentName, newquantity, newminQuantity, newstatus):
-        itemUpdated = False
         for component in self.componentObjects:
-            componentUpdated = False
-            if (oldcomponentId == component.get_componentId()):
-                itemUpdated = True
-                if (newcomponentId != "") and (newcomponentId != None):
+            if component.get_componentId() == oldcomponentId:
+                if newcomponentId:
                     component.set_componentId(newcomponentId)
-                    componentUpdated = True
-                if (newcomponentName != "") and (newcomponentName != None):
+                if newcomponentName:
                     component.set_componentName(newcomponentName)
-                    componentUpdated = True
-                if (newquantity != "") and (newquantity != None):
+                if newquantity is not None:
                     component.set_quantity(newquantity)
-                    componentUpdated = True
-                if (newminQuantity != "") and (newminQuantity != None):
+                if newminQuantity is not None:
                     component.set_minQuantity(newminQuantity)
-                    componentUpdated = True
-                if (newstatus != "") and (newstatus != None):
+                if newstatus:
                     component.set_status(newstatus)
-                    componentUpdated = True
-            if componentUpdated:
-                edit_component_db(oldcomponentId, component.get_componentId(), component.get_componentName(), component.get_quantity(), component.get_minQuantity(), component.get_status().name)
-        return itemUpdated
+
+                self.db.edit_component_db(
+                    oldcomponentId,
+                    component.get_componentId(),
+                    component.get_componentName(),
+                    component.get_quantity(),
+                    component.get_minQuantity(),
+                    component.get_status()
+                )
+                return True
+        return False
+
     def delete_component(self, componentId):
-        itemDeleted = False
         for component in self.componentObjects:
-            if (componentId == component.get_componentId()):
-                itemDeleted = True
-                delete_component_db(componentId)
+            if component.get_componentId() == componentId:
                 self.componentObjects.remove(component)
-        return itemDeleted
+                self.db.delete_component_db(componentId)
+                return True
+        return False
 
     def get_component_objects(self):
         return self.componentObjects
+
 
