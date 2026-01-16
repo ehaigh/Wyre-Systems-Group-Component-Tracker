@@ -6,7 +6,7 @@ class Component:
         self.componentName = componentName
         self.quantity = quantity
         self.minQuantity = minQuantity
-        self.status = StatusType[status]
+        self.status = StatusType[status] if isinstance(status, str) else status
     def get_componentId(self):
         return self.componentId
     def get_componentName(self):
@@ -26,4 +26,6 @@ class Component:
     def set_minQuantity(self, minQuantity):
         self.minQuantity = minQuantity
     def set_status(self, status):
-        self.status = StatusType[status]
+        self.status = StatusType[status] if isinstance(status, str) else status
+
+
