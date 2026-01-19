@@ -298,7 +298,11 @@ class UIController:
         addisManagerlabel.pack(pady=10)
 
         addisManagertextbox = tk.Entry(centerframe, font=('Arial', 16))
-        addisManagertextbox.pack()
+        addisManagerlabel.pack(pady=10)
+
+        addisManagervar = tk.BooleanVar()
+        addisManagercheckbox = tk.Checkbutton(centerframe, variable=addisManagervar)
+        addisManagercheckbox.pack()
 
         addbutton = tk.Button(
             centerframe,
@@ -308,7 +312,7 @@ class UIController:
                 addemployeeIdtextbox.get(),
                 addusernametextbox.get(),
                 addpasswordtextbox.get(),
-                addisManagertextbox.get()
+                addisManagervar.get()
             )
         )
         addbutton.pack(pady=20)
