@@ -94,7 +94,7 @@ class UtilitiesController:
                 data.append(["Component with componentId=" + component.get_componentId() + " is out of stock"])
             if component.get_status() == "faulty":
                 data.append(["Component with componentId=" + component.get_componentId() + " is faulty"])
-            if component.get_quantity() < component.get_minQuantity:
+            if component.get_quantity() < component.get_minQuantity():
                 data.append(["Component with componentId=" + component.get_componentId() + " has quantity below minimum quantity"])
         return data
     def validateLogin(self, username, password):
@@ -376,4 +376,5 @@ class UtilitiesController:
         else:
             self.logController.create_log(str(uuid.uuid4()), "Unsuccessfully edited employee as " + validationMessage, datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%X"))
             self.uicontroller.create_popup(validationMessage)
+
 
