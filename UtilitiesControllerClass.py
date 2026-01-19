@@ -9,19 +9,15 @@ class UtilitiesController:
         self.componentController = componentController
         self.logController = logController
         self.backupController = backupController
-
     def initialiseSystem(self, dbReader):
         if dbReader:
             dbReader.load_all()
-
     def setUIController(self, uicontroller):
         self.uicontroller = uicontroller
-
     def manageBackup(self):
         self.uicontroller.create_popup("Successfully created backup")
         self.logController.create_log(str(uuid.uuid4()), "Successfully created backup", datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%X"))
         self.backupController.create_backup()
-
     def manageExport(self):
         exports_folder = os.path.join(os.getcwd(), "Exports")
         if not os.path.exists(exports_folder):
@@ -50,7 +46,6 @@ class UtilitiesController:
         except Exception as e:
             self.uicontroller.create_popup("Failed to export data with error:" + str(e))
             self.logController.create_log(str(uuid.uuid4()), "Failed to export data", datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%X"))
-
     def getComponentData(self):
         componentObjects = self.componentController.get_component_objects()
         data = []
@@ -66,7 +61,6 @@ class UtilitiesController:
             data.append(row)
 
         return data
-
     def getEmployeeData(self):
         employeeObjects = self.employeeController.get_employee_objects()
         data = []
@@ -78,7 +72,6 @@ class UtilitiesController:
                 "Yes" if emp.get_isManager() else "No"
             ])
         return data
-
     def getLogData(self):
         logObjects = self.logController.get_log_objects()
         data = []
@@ -93,7 +86,6 @@ class UtilitiesController:
             data.append(row)
 
         return data
-
     def getAlertData(self):
         data = []
         componentObjects = self.componentController.get_component_objects()
@@ -102,8 +94,9 @@ class UtilitiesController:
                 data.append(["Component with componentId=" + component.get_componentId() + " is out of stock"])
             if component.get_status() == "faulty":
                 data.append(["Component with componentId=" + component.get_componentId() + " is faulty"])
+            if component.get_quantity() < component.get_minQuantity:
+                data.append(["Component with componentId=" + component.get_componentId() + " has quantity below minimum quantity"])
         return data
-
     def validateLogin(self, username, password):
         valid, isManager = self.employeeController.validate_credentials(username, password)
         if valid:
@@ -113,7 +106,6 @@ class UtilitiesController:
         return valid, isManager
     def validateAddEmployee(self, employeeId, username, password, isManager):
         validationMessage = ""
-
         employeeObjects = self.employeeController.get_employee_objects()
 
         for employee in employeeObjects:
@@ -155,7 +147,6 @@ class UtilitiesController:
             self.uicontroller.create_popup(validationMessage)
         else:
             self.logController.create_log(str(uuid.uuid4()), "Unsuccessfully created employee as " + validationMessage, datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%X"))
-
     def validateDeleteEmployee(self, employeeId):
         validationMessage = ""
         found = False
@@ -180,7 +171,6 @@ class UtilitiesController:
                 validationMessage = "Error occurred while deleting employee"
                 self.logController.create_log(str(uuid.uuid4()), "Unsuccessfully deleted employee as error occurred", datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%X"))
             self.uicontroller.create_popup(validationMessage)
-
     def validateEditEmployee(self, oldemployeeId, newemployeeId, newusername, newpassword, newisManager):
         validationMessage = ""
         found = False
@@ -241,7 +231,6 @@ class UtilitiesController:
         else:
             self.logController.create_log(str(uuid.uuid4()), "Unsuccessfully edited employee as " + validationMessage, datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%X"))
         self.uicontroller.create_popup(validationMessage)
-
     def validateAddComponent(self, componentId, componentName, quantity, minQuantity, status):
         validationMessage = "" 
         componentObjects = self.componentController.get_component_objects() 
@@ -296,7 +285,6 @@ class UtilitiesController:
             self.logController.create_log(str(uuid.uuid4()), "Successfully created component with componentId=" + componentId, datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%X"))
         else:
             self.logController.create_log(str(uuid.uuid4()), "Unsuccessfully created component as " + validationMessage, datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%X"))
-
     def validateDeleteComponent(self, componentId):
         validationMessage = "" 
         found = False 
@@ -317,8 +305,6 @@ class UtilitiesController:
         else:
             self.logController.create_log(str(uuid.uuid4()), "Unsuccessfully deleted component as " + validationMessage, datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%X"))
         self.uicontroller.create_popup(validationMessage)
-
-
     def validateEditComponent(self, oldcomponentId, newcomponentId, newcomponentName, newquantity, newminQuantity, newstatus):
         validationMessage = ""
         found = False
@@ -390,3 +376,4 @@ class UtilitiesController:
         else:
             self.logController.create_log(str(uuid.uuid4()), "Unsuccessfully edited employee as " + validationMessage, datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%X"))
             self.uicontroller.create_popup(validationMessage)
+
