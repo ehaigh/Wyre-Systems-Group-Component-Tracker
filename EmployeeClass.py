@@ -1,5 +1,6 @@
 class Employee:
     def __init__(self, employeeId, username, password, isManager):
+        #Create employee with given parameters
         self.employeeId = employeeId
         self.username = username
         self.password = password
@@ -20,4 +21,3 @@ class Employee:
         self.password = password
     def set_isManager(self, isManager):
         self.isManager = isManager
-
