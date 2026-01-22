@@ -2,6 +2,7 @@ from StatusTypeEnum import StatusType
 
 class Component:
     def __init__(self, componentId, componentName, quantity, minQuantity, status):
+        #Create component with given parameters
         self.componentId = componentId
         self.componentName = componentName
         self.quantity = quantity
@@ -27,5 +28,6 @@ class Component:
         self.minQuantity = minQuantity
     def set_status(self, status):
         self.status = StatusType[status] if isinstance(status, str) else status
+
 
 
