@@ -1,5 +1,6 @@
 class Log:
     def __init__(self, logId, action, date, time):
+        #Create log with given parameters
         self.logId = logId
         self.action = action
         self.date = date
