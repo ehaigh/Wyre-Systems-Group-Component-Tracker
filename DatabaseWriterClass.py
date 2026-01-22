@@ -2,12 +2,13 @@ import sqlite3
 
 class DatabaseWriter:
     def __init__(self):
+        #Establishes database connection
         self.connection = sqlite3.connect('database.db')
-
     def close(self):
+        #Closes database connection when necessary
         self.connection.close()
-
     def create_employee_db(self, employeeId, username, password, isManager):
+        #Adds new employee to the database
         cursor = self.connection.cursor()
         cursor.execute(
             "INSERT INTO UserTable VALUES (?, ?, ?, ?)",
@@ -15,6 +16,7 @@ class DatabaseWriter:
         )
         self.connection.commit()
     def edit_employee_db(self, oldemployeeId, newemployeeId, newusername, newpassword, newisManager):
+        #Edits an employee in the database
         cursor = self.connection.cursor()
         cursor.execute(
             """
@@ -26,14 +28,15 @@ class DatabaseWriter:
         )
         self.connection.commit()
     def delete_employee_db(self, employeeId):
+        #Deletes an employee from the database
         cursor = self.connection.cursor()
         cursor.execute(
             "DELETE FROM UserTable WHERE employeeId = ?",
             (employeeId,)
         )
         self.connection.commit()
-
     def create_component_db(self, componentId, componentName, quantity, minQuantity, status):
+        #Adds new component to the database
         cursor = self.connection.cursor()
         cursor.execute(
             "INSERT INTO ComponentTable VALUES (?, ?, ?, ?, ?)",
@@ -41,6 +44,7 @@ class DatabaseWriter:
         )
         self.connection.commit()
     def edit_component_db(self, oldcomponentId, newcomponentId, newcomponentName, newquantity, newminQuantity, newstatus):
+        #Edits a component in the database
         cursor = self.connection.cursor()
         cursor.execute(
             """
@@ -52,14 +56,15 @@ class DatabaseWriter:
         )
         self.connection.commit()
     def delete_component_db(self, componentId):
+        #Deletes a component from the database
         cursor = self.connection.cursor()
         cursor.execute(
             "DELETE FROM ComponentTable WHERE componentId = ?",
             (componentId,)
         )
         self.connection.commit()
-
     def create_log_db(self, logId, action, date, time):
+        #Adds a new log to the database
         cursor = self.connection.cursor()
         cursor.execute(
             "INSERT INTO LogTable VALUES (?, ?, ?, ?)",
